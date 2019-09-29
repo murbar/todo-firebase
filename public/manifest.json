@@ -1,6 +1,6 @@
 {
-  "short_name": "CRA Boilerplate",
-  "name": "Create React App Boilerplate",
+  "short_name": "To-do",
+  "name": "To-do App",
   "icons": [
     {
       "src": "favicon.ico",
