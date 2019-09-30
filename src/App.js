@@ -1,25 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from 'components/Header';
+import ErrorBoundary from 'components/common/ErrorBoundary';
+import Lists from 'components/Lists';
+import List from 'components/List';
+import Signup from 'components/Signup';
+import Login from 'components/Login';
+import Search from 'components/Search';
 
 const Styles = styled.div`
-  margin: 0 2rem;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+  max-width: 60rem;
 `;
 
 function App() {
   return (
-    <Styles>
-      <Header />
-      <p>
-        August 2019 - is it{' '}
-        <a href="https://github.com/facebook/create-react-app/releases">up to date</a>?
-      </p>
-      <ul>
-        <li>No cruft</li>
-        <li>Styled components - global styles, theme, helpers</li>
-        <li>"Nunito" font face</li>
-      </ul>
-    </Styles>
+    <ErrorBoundary>
+      <Styles>
+        <Header />
+        <Router>
+          <Search />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/lists/:slug" component={List} />
+            <Route path="/lists" component={Lists} />
+          </Switch>
+        </Router>
+      </Styles>
+    </ErrorBoundary>
   );
 }
 
