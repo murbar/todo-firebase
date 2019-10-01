@@ -13,7 +13,6 @@ export default function Search() {
   return (
     <Styles>
       <input type="text" placeholder="Search" />
-      <button>Search</button>
     </Styles>
   );
 }
