@@ -29,7 +29,6 @@ export default function AddItemInput({ addItem }) {
         onChange={e => setItemTitle(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <button onClick={handleAdd}>Add</button>
     </Styles>
   );
 }

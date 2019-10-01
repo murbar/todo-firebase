@@ -29,7 +29,6 @@ export default function AddListInput({ addList }) {
         onChange={e => setListTitle(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <button onClick={handleAdd}>Add</button>
     </Styles>
   );
 }
