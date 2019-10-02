@@ -20,7 +20,6 @@ const useForm = (onSubmit, initialValues) => {
   const handleSubmit = async e => {
     e.preventDefault();
     await onSubmit(values);
-    setValues({});
   };
 
   const handleClear = () => {
