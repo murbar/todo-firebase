@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Header from 'components/Header';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ErrorBoundary from 'components/common/ErrorBoundary';
+import Header from 'components/Header';
+import Navigation from 'components/Navigation';
+import Landing from 'components/pages/Landing';
+import Search from 'components/Search';
+import Signup from 'components/pages/Signup';
+import Login from 'components/pages/Login';
+import Logout from 'components/pages/Logout';
+import ProtectedRoute from 'components/ProtectedRoute';
 import Lists from 'components/Lists';
 import List from 'components/List';
-import Signup from 'components/Signup';
-import Login from 'components/Login';
-import Navigation from 'components/Navigation';
-import Search from 'components/Search';
-import Landing from 'components/Landing';
-import { useAuth } from 'contexts/AuthContext';
-// import useLogging from 'hooks/useLogging';
-import Logout from 'components/Logout';
+import NotFound from 'components/pages/NotFound';
 
 const Styles = styled.div`
   margin: 0 auto;
@@ -20,15 +20,7 @@ const Styles = styled.div`
   max-width: 60rem;
 `;
 
-const Loading = () => <div>Loading...</div>;
-
 function App() {
-  const { user, isInitialized } = useAuth();
-
-  // don't render router until user is initialized
-  // if initialized and no user then clear local app data
-  // useLogging(isInitialized, 'user initialized');
-
   return (
     <ErrorBoundary>
       <Styles>
@@ -38,12 +30,12 @@ function App() {
           <Search />
           <Switch>
             <Route path="/" exact={true} component={Landing} />
-            <Route path="/lists/:slug" component={List} />
-            <Route path="/lists" component={Lists} />
-
-            <Route path="/signup" component={Signup} />
+            <ProtectedRoute path="/lists/:slug" component={List} />
+            <ProtectedRoute path="/lists" component={Lists} />
+            <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
-            <Route component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route component={NotFound} />
           </Switch>
         </Router>
       </Styles>
