@@ -20,7 +20,8 @@ export default createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
-    line-height: 1.3;
+    line-height: 1.2;
+    margin: 1em 0 0.5em 0;
   }
   a {
     color: inherit;
