@@ -17,9 +17,9 @@ const useForm = (onSubmit, initialValues) => {
     setValues(prevValues => ({ ...prevValues, [name]: value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    await onSubmit(values);
+    onSubmit(values);
   };
 
   const handleClear = () => {
