@@ -12,37 +12,37 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('auth update, user:', user);
-  }, [user]);
+    if (error !== null) console.log('auth error:', error);
+  }, [error]);
 
   useEffect(() => {
     const cancelListener = auth.onUserChange(user => {
       setUser(user);
       setIsInitialized(true);
+      if (!user) window.localStorage.clear();
     });
 
     return () => cancelListener;
   }, [setUser]);
 
-  const loginWithEmail = async (email, password) => {
+  // accept callbacks for login/logout? e.g. for redirects
+
+  const loginWithEmail = async (email, password, persistUser = true) => {
     setIsLoading(true);
     setError(null);
     try {
-      await auth.loginWithEmail(email, password);
+      await auth.loginWithEmail(email, password, persistUser);
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
       setError(error.message);
       setIsLoading(false);
     }
   };
 
-  // accept callback, e.g. for redirect?
   const logout = async () => {
     try {
       auth.logout();
     } catch (error) {
-      console.error(error);
       setError(error.message);
     }
   };
