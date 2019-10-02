@@ -19,4 +19,10 @@ export const fieldValues = {
   serverTimestamp: firebase.firestore.FieldValue.serverTimestamp
 };
 
+export const collections = {
+  USERS: 'users',
+  LISTS: 'lists',
+  ITEMS: 'items'
+};
+
 export default firebase.initializeApp(firebaseConfig);
