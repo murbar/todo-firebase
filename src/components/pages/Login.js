@@ -1,20 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Redirect, useLocation } from 'react-router-dom';
 import Button from 'components/common/Button';
 import useForm from 'hooks/useForm';
 import { useAuth } from 'contexts/AuthContext';
-import { Redirect } from 'react-router-dom';
+import config from 'config';
 
 const Styles = styled.div``;
 
 export default function Login() {
   const { user, loginWithEmail } = useAuth();
+  const location = useLocation();
+  const { from } = location.state || {
+    from: { pathname: config.defaultLoginDestination }
+  };
   const { values, handleChange, handleSubmit } = useForm(() => {
     loginWithEmail(values.email, values.password, values.remember);
   });
 
   return user ? (
-    <Redirect to="/lists" />
+    <Redirect to={from} />
   ) : (
     <Styles>
       <h2>Login</h2>
