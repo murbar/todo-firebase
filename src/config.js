@@ -4,5 +4,6 @@ export default {
   pageTitle: 'To-do App',
   GAPropertyId: '',
   sentryDsn: '',
-  env: process.env.NODE_ENV
+  env: process.env.NODE_ENV,
+  defaultLoginDestination: '/lists'
 };
