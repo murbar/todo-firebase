@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ErrorBoundary from 'components/common/ErrorBoundary';
-import Header from 'components/Header';
 import Navigation from 'components/Navigation';
 import Landing from 'components/pages/Landing';
 import Search from 'components/Search';
@@ -24,7 +23,6 @@ function App() {
   return (
     <ErrorBoundary>
       <Styles>
-        <Header />
         <Router>
           <Navigation />
           <Search />
