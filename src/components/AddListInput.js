@@ -7,12 +7,8 @@ export default function AddListInput({ addList }) {
   const [listTitle, setListTitle] = React.useState('');
 
   const handleAdd = () => {
-    const successful = addList(listTitle);
-    if (successful) {
-      setListTitle('');
-    } else {
-      // handle add error
-    }
+    if (listTitle.length) addList(listTitle);
+    setListTitle('');
   };
 
   const handleKeyPress = e => {

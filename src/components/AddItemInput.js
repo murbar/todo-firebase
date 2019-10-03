@@ -7,12 +7,8 @@ export default function AddItemInput({ addItem }) {
   const [itemTitle, setItemTitle] = React.useState('');
 
   const handleAdd = () => {
-    const successful = addItem(itemTitle);
-    if (successful) {
-      setItemTitle('');
-    } else {
-      // handle add error
-    }
+    if (itemTitle.length) addItem(itemTitle);
+    setItemTitle('');
   };
 
   const handleKeyPress = e => {
