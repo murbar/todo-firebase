@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ListItem from './ListItem';
 import AddItemInput from './AddItemInput';
-import useItems from 'hooks/useItems';
+import useListItems from 'hooks/useListItems';
 
 const Styles = styled.div``;
 
 export default function List() {
   const { slug } = useParams();
-  const [itemsData, itemsActions] = useItems(slug);
+  const [itemsData, itemsActions] = useListItems(slug);
   const uncompletedItemCount = itemsData.items.reduce(
     (count, i) => (!i.isComplete ? count + 1 : count),
     0

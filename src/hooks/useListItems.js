@@ -3,6 +3,8 @@ import useLocalStorageState from './useLocalStorageState';
 import firestore from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
 import { useAuth } from 'contexts/AuthContext';
+import useLists from './useLists';
+import { buildRequestWrapper } from 'helpers';
 
 const constructNewItem = (title, userId, listId) => ({
   title,
@@ -15,44 +17,16 @@ const constructNewItem = (title, userId, listId) => ({
   updatedAt: fieldValues.serverTimestamp()
 });
 
-export default function useItems(listSlug) {
+export default function useListItems(listSlug) {
   const { user } = useAuth();
-  const [list, setList] = useLocalStorageState(`list-${listSlug}`, null);
+  const [listsData, listsActions] = useLists();
+  const list = listsData.lists.find(l => l.slug === listSlug);
   const [items, setItems] = useLocalStorageState(`items-${listSlug}`, []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const wrapRequest = (callback, errorMessage) => async (...args) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      await callback(...args);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setError(errorMessage);
-      setIsLoading(false);
-    }
-  };
+  const wrapRequest = buildRequestWrapper(setIsLoading, setError);
 
-  // fetch list
-  useEffect(() => {
-    const unsubscribe = firestore
-      .collection(collections.LISTS)
-      .where('slug', '==', listSlug)
-      .where('userId', '==', user.uid)
-      .limit(1)
-      .onSnapshot(snapshot => {
-        const records = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setList(records[0]);
-      });
-    return () => unsubscribe();
-  }, [listSlug, setList, user]);
-
-  // fetch list's items
   useEffect(() => {
     if (user && list) {
       const unsubscribe = firestore
@@ -70,16 +44,6 @@ export default function useItems(listSlug) {
       return () => unsubscribe();
     }
   }, [list, setItems, user]);
-
-  const retitleList = wrapRequest(async title => {
-    await firestore
-      .collection(collections.LISTS)
-      .doc(list.id)
-      .update({
-        title,
-        updatedAt: fieldValues.serverTimestamp()
-      });
-  }, 'Cannot change list title');
 
   const createItem = wrapRequest(async title => {
     await firestore
@@ -115,7 +79,7 @@ export default function useItems(listSlug) {
   }, 'Cannot toggle show/hide complete items');
 
   const actions = {
-    retitleList,
+    retitleList: listsActions.retitleList,
     toggleShowComplete,
     createItem,
     removeItem,
