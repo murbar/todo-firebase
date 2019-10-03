@@ -37,7 +37,7 @@ export default function List() {
                   key={item.id}
                   data={item}
                   actions={{
-                    toggleComplete: itemsActions.toggleComplete,
+                    toggleComplete: itemsActions.toggleItemComplete,
                     removeItem: itemsActions.removeItem
                   }}
                 />

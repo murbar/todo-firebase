@@ -58,7 +58,7 @@ export default function useListItems(listSlug) {
       .delete();
   }, 'Cannot remove item');
 
-  const toggleComplete = wrapRequest(async (id, isComplete) => {
+  const toggleItemComplete = wrapRequest(async (id, isComplete) => {
     await firestore
       .collection(collections.ITEMS)
       .doc(id)
@@ -80,10 +80,11 @@ export default function useListItems(listSlug) {
 
   const actions = {
     retitleList: listsActions.retitleList,
+    removeList: listsActions.removeList,
     toggleShowComplete,
     createItem,
     removeItem,
-    toggleComplete
+    toggleItemComplete
   };
 
   const data = {
