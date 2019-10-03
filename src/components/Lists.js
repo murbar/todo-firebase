@@ -13,8 +13,8 @@ export default function Lists() {
     <Styles>
       <h2>My Lists</h2>
       <AddListInput addList={actions.createList} />
-      {data.length === 0 && <h3>No lists</h3>}
-      {data.map(l => (
+      {data.lists.length === 0 && <h3>No lists</h3>}
+      {data.lists.map((l, index) => (
         <div key={l.id}>
           <Link to={`/lists/${l.slug}`}>{l.title}</Link>{' '}
           <button onClick={() => actions.removeList(l.id)}>X</button>
@@ -26,6 +26,12 @@ export default function Lists() {
           >
             Edit
           </button>
+          {index !== 0 && (
+            <button onClick={() => actions.reorderLists(index, index - 1)}>{'<<'}</button>
+          )}
+          {index !== data.lists.length - 1 && (
+            <button onClick={() => actions.reorderLists(index, index + 1)}>{'>>'}</button>
+          )}
         </div>
       ))}
     </Styles>
