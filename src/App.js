@@ -30,11 +30,11 @@ function App() {
           <Search />
           <Switch>
             <Route path="/" exact={true} component={Landing} />
-            <ProtectedRoute path="/lists/:slug" component={List} />
-            <ProtectedRoute path="/lists" component={Lists} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/signup" component={Signup} />
+            <ProtectedRoute path="/lists/:slug" component={List} />
+            <ProtectedRoute path="/lists" component={Lists} />
             <Route component={NotFound} />
           </Switch>
         </Router>
