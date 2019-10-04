@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import ListItem from './ListItem';
 import AddItemInput from './AddItemInput';
 import useListItems from 'hooks/useListItems';
@@ -9,7 +9,11 @@ const Styles = styled.div``;
 
 export default function List() {
   const { slug } = useParams();
+  const history = useHistory();
   const [itemsData, itemsActions] = useListItems(slug);
+
+  if (itemsData.noSuchList) history.replace('/lists');
+
   const uncompletedItemCount = itemsData.items.reduce(
     (count, i) => (!i.isComplete ? count + 1 : count),
     0
@@ -26,20 +30,19 @@ export default function List() {
           <h2>
             {itemsData.list.title} ({uncompletedItemCount})
           </h2>
+          <Link to="/lists">← Lists</Link>
           <AddItemInput addItem={itemsActions.createItem} />
           <button onClick={itemsActions.toggleShowComplete}>
             {itemsData.list.showComplete ? 'Hide' : 'Show'} completed
           </button>
           {itemsDisplay.length ? (
             <div>
-              {itemsDisplay.map(item => (
+              {itemsDisplay.map((item, index) => (
                 <ListItem
                   key={item.id}
                   data={item}
-                  actions={{
-                    toggleComplete: itemsActions.toggleItemComplete,
-                    removeItem: itemsActions.removeItem
-                  }}
+                  index={index}
+                  actions={itemsActions}
                 />
               ))}
             </div>
