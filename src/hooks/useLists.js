@@ -6,15 +6,26 @@ import { useAuth } from 'contexts/AuthContext';
 import slugify from 'url-slug';
 import { reorderArray, buildRequestWrapper } from 'helpers';
 
-const constructNewList = (title, userId, lastSortOrder) => {
+const labels = {
+  RED: 'red',
+  ORANGE: 'orange',
+  YELLOW: 'yellow',
+  GREEN: 'green',
+  BLUE: 'blue',
+  PURPLE: 'purple',
+  DEFAULT: null
+};
+
+const constructNewList = (title, userId, lastSortOrder, label = labels.DEFAULT) => {
   return {
     title,
     slug: slugify(title),
-    userId,
+    label,
+    sortOrder: lastSortOrder + 1,
     showComplete: false,
+    userId,
     createdAt: fieldValues.serverTimestamp(),
-    updatedAt: fieldValues.serverTimestamp(),
-    sortOrder: lastSortOrder + 1
+    updatedAt: fieldValues.serverTimestamp()
   };
 };
 
@@ -68,6 +79,7 @@ export default function useLists() {
   const createList = wrapRequest(async title => {
     const newList = constructNewList(title, user.uid, listsData.length);
     await firestore.collection(collections.LISTS).add(newList);
+    return newList.slug;
   }, 'Cannot create new list');
 
   const removeList = wrapRequest(async id => {
