@@ -4,9 +4,9 @@ import firestore from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
 import { useAuth } from 'contexts/AuthContext';
 import useLists from './useLists';
-import { buildRequestWrapper } from 'helpers';
+import { reorderArray, buildRequestWrapper } from 'helpers';
 
-const constructNewItem = (title, userId, listId) => ({
+const constructNewItem = (title, userId, listId, lastSortOrder) => ({
   title,
   isComplete: false,
   dueDate: null,
@@ -14,7 +14,8 @@ const constructNewItem = (title, userId, listId) => ({
   listId,
   userId,
   createdAt: fieldValues.serverTimestamp(),
-  updatedAt: fieldValues.serverTimestamp()
+  updatedAt: fieldValues.serverTimestamp(),
+  sortOrder: lastSortOrder + 1
 });
 
 export default function useListItems(listSlug) {
@@ -24,6 +25,7 @@ export default function useListItems(listSlug) {
   const [items, setItems] = useLocalStorageState(`items-${listSlug}`, []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const noSuchList = !isLoading && !list;
 
   const wrapRequest = buildRequestWrapper(setIsLoading, setError);
 
@@ -33,7 +35,7 @@ export default function useListItems(listSlug) {
         .collection(collections.ITEMS)
         .where('listId', '==', list.id)
         .where('userId', '==', user.uid)
-        .orderBy('createdAt')
+        .orderBy('sortOrder')
         .onSnapshot(snapshot => {
           const records = snapshot.docs.map(doc => ({
             id: doc.id,
@@ -48,7 +50,7 @@ export default function useListItems(listSlug) {
   const createItem = wrapRequest(async title => {
     await firestore
       .collection(collections.ITEMS)
-      .add(constructNewItem(title, user.uid, list.id));
+      .add(constructNewItem(title, user.uid, list.id, items.length));
   }, 'Cannot create new item');
 
   const removeItem = wrapRequest(async id => {
@@ -68,6 +70,26 @@ export default function useListItems(listSlug) {
       });
   }, 'Cannot toggle item complete');
 
+  const reorderItems = wrapRequest(async (currentIndex, targetIndex) => {
+    const newItemsData = reorderArray(items, currentIndex, targetIndex).map(
+      (item, index) => ({
+        id: item.id,
+        sortOrder: index + 1
+      })
+    );
+    const writeBatch = firestore.batch();
+    items.forEach(item => {
+      const newSortOrder = newItemsData.find(i => i.id === item.id).sortOrder;
+      if (item.sortOrder !== newSortOrder) {
+        const itemRef = firestore.collection(collections.ITEMS).doc(item.id);
+        writeBatch.update(itemRef, {
+          sortOrder: newSortOrder
+        });
+      }
+    });
+    writeBatch.commit();
+  }, 'Cannot set items order');
+
   const toggleShowComplete = wrapRequest(async () => {
     await firestore
       .collection(collections.LISTS)
@@ -84,14 +106,16 @@ export default function useListItems(listSlug) {
     toggleShowComplete,
     createItem,
     removeItem,
-    toggleItemComplete
+    toggleItemComplete,
+    reorderItems
   };
 
   const data = {
     list,
     items,
     isLoading,
-    error
+    error,
+    noSuchList
   };
 
   return [data, actions];
