@@ -17,8 +17,9 @@ export const buildRequestWrapper = (setIsLoading = () => {}, setError = () => {}
     setIsLoading(true);
     setError(null);
     try {
-      await callback(...args);
+      const result = await callback(...args);
       setIsLoading(false);
+      return result;
     } catch (error) {
       console.error(error);
       setError(errorMessage);
