@@ -4,7 +4,6 @@ import firestore from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
 import { useAuth } from 'contexts/AuthContext';
 import slugify from 'url-slug';
-import { useHistory } from 'react-router-dom';
 import { reorderArray, buildRequestWrapper } from 'helpers';
 
 const constructNewList = (title, userId, lastSortOrder) => {
@@ -21,7 +20,6 @@ const constructNewList = (title, userId, lastSortOrder) => {
 
 export default function useLists() {
   const { user } = useAuth();
-  const history = useHistory();
   const [listsData, setListsData] = useLocalStorageState('lists-data', []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -67,22 +65,19 @@ export default function useLists() {
     writeBatch.commit();
   }, 'Cannot set lists order');
 
-  const createList = wrapRequest(async (title, redirect = true) => {
+  const createList = wrapRequest(async title => {
     const newList = constructNewList(title, user.uid, listsData.length);
-    // TODO problem with redirect: wrapper can't set loading/error if we've navigated away from this component
-    if (redirect) history.push(`/lists/${newList.slug}`);
     await firestore.collection(collections.LISTS).add(newList);
   }, 'Cannot create new list');
 
-  const removeList = wrapRequest(async (id, redirect = false) => {
+  const removeList = wrapRequest(async id => {
     await firestore
       .collection(collections.LISTS)
       .doc(id)
       .delete();
-    if (redirect) history.push(`/lists`);
   }, 'Cannot delete list');
 
-  const retitleList = wrapRequest(async (id, title, redirect = false) => {
+  const retitleList = wrapRequest(async (id, title) => {
     // TODO check/handle if slug already exists
     const slug = slugify(title);
     await firestore
@@ -93,7 +88,7 @@ export default function useLists() {
         slug,
         updatedAt: fieldValues.serverTimestamp()
       });
-    if (redirect) history.replace(`/lists/${slug}`);
+    return slug;
   });
 
   const data = {
