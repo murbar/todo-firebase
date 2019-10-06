@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import CheckBox from './common/CheckBox';
 
 const Styles = styled.div`
   background: white;
   margin: 0 0 1rem 0;
   padding: 1rem;
-  border-radius: 0.5rem;
   display: flex;
+  border-bottom: 1px solid #ccc;
 `;
 
 const Toggle = styled.div`
-  width: 4rem;
-  text-align: center;
+  padding: 0.25rem 0.5rem 0.25rem 0;
 `;
 
 const Title = styled.div`
@@ -32,7 +32,7 @@ export default function ListItem({ data, actions, index }) {
   return (
     <Styles>
       <Toggle>
-        <input type="checkbox" checked={isComplete} onChange={toggle} />
+        <CheckBox checked={isComplete} onChange={toggle} />
       </Toggle>
 
       <Title>{title}</Title>
