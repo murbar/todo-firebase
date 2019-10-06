@@ -8,7 +8,7 @@ import App from './App';
 
 const Root = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme.light}>
       <AuthProvider>
         <GlobalStyles />
         <App />
