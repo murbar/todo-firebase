@@ -13,7 +13,7 @@ const labels = {
   GREEN: 'green',
   BLUE: 'blue',
   PURPLE: 'purple',
-  DEFAULT: null
+  DEFAULT: 'blue'
 };
 
 const constructNewList = (title, userId, lastSortOrder, label = labels.DEFAULT) => {
