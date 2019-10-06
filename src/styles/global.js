@@ -10,8 +10,8 @@ export default createGlobalStyle`
   }
   body {
     margin: 0;
-    background: ${p => p.theme.colors.offWhite};
-    color: ${p => p.theme.colors.offBlack};
+    background: ${p => p.theme.colors.background};
+    color: ${p => p.theme.colors.foreground};
     font-family: ${p => p.theme.fontFamily};
     font-size: 1.8rem;
     line-height: 1.7;
@@ -24,9 +24,10 @@ export default createGlobalStyle`
     margin: 1em 0 0.5em 0;
   }
   a {
-    color: inherit;
-    &:hover {
       color: ${p => p.theme.colors.primary};
+      text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
   }
 `;
