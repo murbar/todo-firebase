@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import AddListInput from './AddListInput';
 import useLists from 'hooks/useLists';
+import MainHeading from './common/MainHeading';
 
 const Styles = styled.div``;
 
@@ -11,7 +12,7 @@ export default function Lists() {
 
   return (
     <Styles>
-      <h2>My Lists</h2>
+      <MainHeading>My Lists</MainHeading>
       <AddListInput addList={actions.createList} />
       {data.lists.length === 0 && <h3>No lists</h3>}
       {data.lists.map((l, index) => (
