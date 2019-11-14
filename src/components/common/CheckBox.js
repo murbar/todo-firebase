@@ -37,7 +37,7 @@ const Styles = styled.div`
     border-radius: ${p => p.theme.borderRadius};
     border-radius: 50%;
     border: 0.1rem solid ${offBlack};
-    transition: all 300ms;
+    transition: all 200ms;
   }
   label:hover input ~ span {
     border: 0.1rem solid ${blue};
