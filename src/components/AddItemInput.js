@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Input from './common/Input';
 
 const Styles = styled.div``;
 
@@ -18,7 +19,7 @@ export default function AddItemInput({ addItem }) {
 
   return (
     <Styles>
-      <input
+      <Input
         type="text"
         placeholder="New item"
         value={itemTitle}
