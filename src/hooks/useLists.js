@@ -91,6 +91,8 @@ export default function useLists() {
 
   const retitleList = wrapRequest(async (id, title) => {
     // TODO check/handle if slug already exists
+    if (!title) return;
+
     const slug = slugify(title);
     await firestore
       .collection(collections.LISTS)
