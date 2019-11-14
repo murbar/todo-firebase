@@ -24,7 +24,7 @@ export default function Login() {
     <Redirect to={from} />
   ) : (
     <Styles>
-      <h2>Login</h2>
+      <h2>Welcome back</h2>
       <form onSubmit={handleSubmit}>
         <FormField>
           <Input
@@ -56,7 +56,7 @@ export default function Login() {
           </label>
         </FormField>
         <FormField>
-          <Button type="submit">Sign up</Button>
+          <Button type="submit">Login</Button>
         </FormField>
       </form>
     </Styles>
