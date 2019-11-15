@@ -5,6 +5,7 @@ import ListItem from './ListItem';
 import AddItemInput from './AddItemInput';
 import useListItems from 'hooks/useListItems';
 import MainHeading from './common/MainHeading';
+import Button from './common/Button';
 
 const Badge = styled.span`
   display: inline-flex;
@@ -49,9 +50,10 @@ export default function List() {
           </MainHeading>
           <Link to="/lists">← Lists</Link>
           <AddItemInput addItem={itemsActions.createItem} />
-          <button onClick={itemsActions.toggleShowComplete}>
+
+          <Button onClick={itemsActions.toggleShowComplete}>
             {list.showComplete ? 'Hide' : 'Show'} completed
-          </button>
+          </Button>
           {itemsDisplay.length ? (
             <div>
               {itemsDisplay.map((item, index) => (
