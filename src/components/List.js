@@ -7,13 +7,13 @@ import useListItems from 'hooks/useListItems';
 import MainHeading from './common/MainHeading';
 import Button from './common/Button';
 
-const Badge = styled.span`
+const Badge = styled.div`
   display: inline-flex;
   color: ${p => p.theme.colors.background};
   background: ${p => (p.label ? p.theme.colors[p.label] : 'blue')};
   margin-left: 0.5em;
-  width: 1.25em;
-  height: 1.25em;
+  width: 1.35em;
+  height: 1.35em;
   border-radius: 50%;
   font-size: 0.6em;
   justify-content: center;
