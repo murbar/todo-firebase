@@ -5,9 +5,9 @@ export const reorderArray = (array, fromIndex, toIndex) => {
   ) {
     return array;
   }
+
   const arrayCopy = [...array];
-  const item = arrayCopy[fromIndex];
-  arrayCopy.splice(fromIndex, 1);
+  const [item] = arrayCopy.splice(fromIndex, 1);
   arrayCopy.splice(toIndex, 0, item);
   return arrayCopy;
 };
