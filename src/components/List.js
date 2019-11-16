@@ -52,13 +52,13 @@ export default function List() {
     <Styles>
       {list ? (
         <>
+          <Link to="/lists">← Lists</Link>
           <MainHeading label={list.label}>
             {list.title}
             {uncompletedItemCount > 0 && (
               <Badge label={list.label}>{uncompletedItemCount}</Badge>
             )}
           </MainHeading>
-          <Link to="/lists">← Lists</Link>
           <AddItemInput addItem={itemsActions.createItem} />
 
           <Button onClick={itemsActions.toggleShowComplete}>
