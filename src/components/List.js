@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams, useHistory, Link } from 'react-router-dom';
-import ListItem from './ListItem';
 import AddItemInput from './AddItemInput';
 import useListItems from 'hooks/useListItems';
 import MainHeading from './common/MainHeading';
 import Button from './common/Button';
+import DraggableReorderList from './DraggableReorderList';
 
 const Badge = styled.div`
   display: inline-flex;
@@ -55,16 +55,7 @@ export default function List() {
             {list.showComplete ? 'Hide' : 'Show'} completed
           </Button>
           {itemsDisplay.length ? (
-            <div>
-              {itemsDisplay.map((item, index) => (
-                <ListItem
-                  key={item.id}
-                  data={item}
-                  index={index}
-                  actions={itemsActions}
-                />
-              ))}
-            </div>
+            <DraggableReorderList items={itemsDisplay} itemsActions={itemsActions} />
           ) : (
             <div>No items</div>
           )}

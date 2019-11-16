@@ -22,7 +22,7 @@ const Controls = styled.div`
   width: 10rem;
 `;
 
-export default function ListItem({ data, actions, index }) {
+export default function ListItem({ data, actions, index, dragHandleProps }) {
   const { id, title, isComplete } = data;
 
   const toggle = () => actions.toggleItemComplete(id, isComplete);
@@ -43,6 +43,7 @@ export default function ListItem({ data, actions, index }) {
           <button onClick={() => actions.reorderItems(index, index - 1)}>{'<<'}</button>
         )}
         <button onClick={() => actions.reorderItems(index, index + 1)}>{'>>'}</button>
+        <span {...dragHandleProps}>Drag</span>
       </Controls>
     </Styles>
   );
