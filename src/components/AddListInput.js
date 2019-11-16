@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Input from 'components/common/Input';
 
 const Styles = styled.div``;
 
@@ -18,9 +19,9 @@ export default function AddListInput({ addList }) {
 
   return (
     <Styles>
-      <input
+      <Input
         type="text"
-        placeholder="New list"
+        placeholder="Add a new list"
         value={listTitle}
         onChange={e => setListTitle(e.target.value)}
         onKeyPress={handleKeyPress}
