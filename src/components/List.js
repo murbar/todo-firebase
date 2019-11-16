@@ -6,6 +6,7 @@ import useListItems from 'hooks/useListItems';
 import MainHeading from './common/MainHeading';
 import Button from './common/Button';
 import DraggableReorderList from './DraggableReorderList';
+import useDocumentTitle from 'hooks/useDocumentTitle';
 
 const Badge = styled.div`
   display: inline-flex;
@@ -40,6 +41,12 @@ export default function List() {
   );
   const visibleItems =
     list && list.showComplete ? items : items.filter(i => !i.isComplete);
+
+  let pageTitle = list.title;
+  if (uncompletedItemCount > 0) {
+    pageTitle += ` (${uncompletedItemCount})`;
+  }
+  useDocumentTitle(pageTitle);
 
   return (
     <Styles>
