@@ -35,7 +35,7 @@ export default function List() {
     (count, i) => (!i.isComplete ? count + 1 : count),
     0
   );
-  const itemsDisplay =
+  const visibleItems =
     list && list.showComplete ? items : items.filter(i => !i.isComplete);
 
   return (
@@ -54,8 +54,8 @@ export default function List() {
           <Button onClick={itemsActions.toggleShowComplete}>
             {list.showComplete ? 'Hide' : 'Show'} completed
           </Button>
-          {itemsDisplay.length ? (
-            <DraggableReorderList items={itemsDisplay} itemsActions={itemsActions} />
+          {visibleItems.length ? (
+            <DraggableReorderList items={visibleItems} itemsActions={itemsActions} />
           ) : (
             <div>No items</div>
           )}
