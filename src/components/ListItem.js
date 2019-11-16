@@ -1,13 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CheckBox from './common/CheckBox';
+
+const isDraggingStyles = css`
+  transform: scale(1.05);
+  opacity: 0.8;
+`;
 
 const Styles = styled.div`
   background: white;
-  margin: 0 0 1rem 0;
   padding: 1rem;
   display: flex;
   border-bottom: 1px solid #ccc;
+  transition: transform 100ms;
+  ${p => p.isDragging && isDraggingStyles}
 `;
 
 const Toggle = styled.div`
@@ -19,10 +25,10 @@ const Title = styled.div`
 `;
 
 const Controls = styled.div`
-  width: 10rem;
+  width: 15rem;
 `;
 
-export default function ListItem({ data, actions, index, dragHandleProps }) {
+export default function ListItem({ data, actions, index, dragHandleProps, isDragging }) {
   const { id, title, isComplete } = data;
 
   const toggle = () => actions.toggleItemComplete(id, isComplete);
@@ -30,7 +36,7 @@ export default function ListItem({ data, actions, index, dragHandleProps }) {
   const remove = () => actions.removeItem(id);
 
   return (
-    <Styles>
+    <Styles isDragging={isDragging}>
       <Toggle>
         <CheckBox checked={isComplete} onChange={toggle} />
       </Toggle>
