@@ -27,7 +27,10 @@ export default function List() {
   const { slug } = useParams();
   const history = useHistory();
   const [itemsData, itemsActions] = useListItems(slug);
-  const { list, items } = itemsData;
+  const { items } = itemsData;
+  const list = React.useMemo(() => {
+    return itemsData.list;
+  }, [itemsData.list]);
 
   if (itemsData.noSuchList) history.replace('/lists');
 
