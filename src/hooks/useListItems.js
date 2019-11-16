@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import useLocalStorageState from './useLocalStorageState';
 import firestore from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
@@ -71,15 +71,17 @@ export default function useListItems(listSlug) {
   }, 'Cannot toggle item complete');
 
   const reorderItems = wrapRequest(async (currentIndex, targetIndex) => {
-    const newItemsData = reorderArray(items, currentIndex, targetIndex).map(
-      (item, index) => ({
-        id: item.id,
-        sortOrder: index + 1
-      })
-    );
+    const reordered = reorderArray(items, currentIndex, targetIndex);
+    setItems(reordered);
+
+    const reorderedSortOrders = reordered.map((item, index) => ({
+      id: item.id,
+      sortOrder: index + 1
+    }));
+
     const writeBatch = firestore.batch();
     items.forEach(item => {
-      const newSortOrder = newItemsData.find(i => i.id === item.id).sortOrder;
+      const newSortOrder = reorderedSortOrders.find(i => i.id === item.id).sortOrder;
       if (item.sortOrder !== newSortOrder) {
         const itemRef = firestore.collection(collections.ITEMS).doc(item.id);
         writeBatch.update(itemRef, {
