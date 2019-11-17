@@ -12,8 +12,7 @@ export default function AddItemInput({ addItem }) {
     setItemTitle('');
   };
 
-  const handleKeyPress = e => {
-    const { key } = e;
+  const handleKeyPress = ({ key }) => {
     if (key === 'Enter') handleAdd();
   };
 
@@ -21,7 +20,7 @@ export default function AddItemInput({ addItem }) {
     <Styles>
       <Input
         type="text"
-        placeholder="New item"
+        placeholder="Add item..."
         value={itemTitle}
         onChange={e => setItemTitle(e.target.value)}
         onKeyPress={handleKeyPress}
