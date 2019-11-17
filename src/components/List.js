@@ -7,6 +7,7 @@ import MainHeading from './common/MainHeading';
 import Button from './common/Button';
 import DraggableReorderList from './DraggableReorderList';
 import useDocumentTitle from 'hooks/useDocumentTitle';
+import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 
 const Badge = styled.div`
   display: inline-flex;
@@ -23,6 +24,14 @@ const Badge = styled.div`
 `;
 
 const Styles = styled.div``;
+
+const BackLink = () => {
+  return (
+    <Link to="/lists">
+      <ArrowLeftIcon size={'1em'} /> Lists
+    </Link>
+  );
+};
 
 export default function List() {
   const { slug } = useParams();
@@ -52,7 +61,7 @@ export default function List() {
     <Styles>
       {list ? (
         <>
-          <Link to="/lists">← Lists</Link>
+          <BackLink />
           <MainHeading label={list.label}>
             {list.title}
             {uncompletedItemCount > 0 && (
@@ -60,7 +69,6 @@ export default function List() {
             )}
           </MainHeading>
           <AddItemInput addItem={itemsActions.createItem} />
-
           <Button onClick={itemsActions.toggleShowComplete}>
             {list.showComplete ? 'Hide' : 'Show'} completed
           </Button>
