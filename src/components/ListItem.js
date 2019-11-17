@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import CheckBox from './common/CheckBox';
+import { Code as CodeIcon } from 'react-feather';
+import { X as XIcon } from 'react-feather';
 
 const isDraggingStyles = css`
   transform: scale(1.05);
@@ -9,23 +11,41 @@ const isDraggingStyles = css`
 
 const Styles = styled.div`
   background: white;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   display: flex;
+  /* align-items: center; */
   border-bottom: 1px solid #ccc;
   transition: transform 100ms;
   ${p => p.isDragging && isDraggingStyles}
 `;
 
 const Toggle = styled.div`
-  padding: 0.25rem 0.5rem 0.25rem 0;
+  padding-right: 0.5em;
 `;
 
 const Title = styled.div`
   flex: 1;
 `;
 
-const Controls = styled.div`
-  width: 15rem;
+const ControlGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Control = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+`;
+
+const DragHandle = styled.div`
+  display: inline-flex;
+  align-items: center;
+  svg {
+    transform: rotate(90deg);
+  }
 `;
 
 export default function ListItem({ data, actions, index, dragHandleProps, isDragging }) {
@@ -43,14 +63,14 @@ export default function ListItem({ data, actions, index, dragHandleProps, isDrag
 
       <Title>{title}</Title>
 
-      <Controls>
-        <button onClick={remove}>X</button>
-        {index !== 0 && (
-          <button onClick={() => actions.reorderItems(index, index - 1)}>{'<<'}</button>
-        )}
-        <button onClick={() => actions.reorderItems(index, index + 1)}>{'>>'}</button>
-        <span {...dragHandleProps}>Drag</span>
-      </Controls>
+      <ControlGroup>
+        <Control onClick={remove}>
+          <XIcon color={'grey'} />
+        </Control>
+        <DragHandle {...dragHandleProps}>
+          <CodeIcon color={'grey'} />
+        </DragHandle>
+      </ControlGroup>
     </Styles>
   );
 }
