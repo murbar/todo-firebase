@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import { useAuth } from 'contexts/AuthContext';
 import styled from 'styled-components';
 
-const Styles = styled.div``;
+const Styles = styled.div`
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+  }
+`;
 
 export default function Navigation() {
   const { user } = useAuth();
