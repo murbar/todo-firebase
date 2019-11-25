@@ -40,14 +40,6 @@ const Control = styled.button`
   margin: 0;
 `;
 
-const DragHandle = styled.div`
-  display: inline-flex;
-  align-items: center;
-  svg {
-    transform: rotate(90deg);
-  }
-`;
-
 export default function ListItem({ data, actions, index, dragHandleProps, isDragging }) {
   const { id, title, isComplete } = data;
 
@@ -61,15 +53,12 @@ export default function ListItem({ data, actions, index, dragHandleProps, isDrag
         <CheckBox checked={isComplete} onChange={toggle} />
       </Toggle>
 
-      <Title>{title}</Title>
+      <Title {...dragHandleProps}>{title}</Title>
 
       <ControlGroup>
         <Control onClick={remove}>
           <XIcon color={'grey'} />
         </Control>
-        <DragHandle {...dragHandleProps}>
-          <CodeIcon color={'grey'} />
-        </DragHandle>
       </ControlGroup>
     </Styles>
   );
