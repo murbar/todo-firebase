@@ -31,6 +31,7 @@ export default function Login() {
             name="email"
             type="text"
             placeholder="Username"
+            autoComplete="username"
             onChange={handleChange}
             value={values.email || ''}
           />
@@ -40,6 +41,7 @@ export default function Login() {
             name="password"
             type="password"
             placeholder="Password"
+            autoComplete="current-password"
             onChange={handleChange}
             value={values.password || ''}
           />
