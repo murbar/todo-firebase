@@ -7,6 +7,12 @@ import MainHeading from './common/MainHeading';
 
 const Styles = styled.div``;
 
+const ListStyles = styled.div`
+  font-size: 1.2em;
+  line-height: 1;
+  padding: 1rem 0;
+`;
+
 export default function Lists() {
   const [data, actions] = useLists();
 
@@ -16,7 +22,7 @@ export default function Lists() {
       <AddListInput addList={actions.createList} />
       {data.lists.length === 0 && <h3>No lists</h3>}
       {data.lists.map((l, index) => (
-        <div key={l.id}>
+        <ListStyles key={l.id}>
           <Link to={`/lists/${l.slug}`}>{l.title}</Link>{' '}
           <button onClick={() => actions.removeList(l.id)}>X</button>
           <button
@@ -33,7 +39,7 @@ export default function Lists() {
           {index !== data.lists.length - 1 && (
             <button onClick={() => actions.reorderLists(index, index + 1)}>{'>>'}</button>
           )}
-        </div>
+        </ListStyles>
       ))}
     </Styles>
   );
