@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import React from 'react';
 import useLocalStorageState from './useLocalStorageState';
 import firestore from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
@@ -23,13 +23,13 @@ export default function useListItems(listSlug) {
   const [listsData, listsActions] = useLists();
   const list = listsData.lists.find(l => l.slug === listSlug);
   const [items, setItems] = useLocalStorageState(`items-${listSlug}`, []);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const noSuchList = !isLoading && !list;
 
   const wrapRequest = buildRequestWrapper(setIsLoading, setError);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user && list) {
       const unsubscribe = firestore
         .collection(collections.ITEMS)
