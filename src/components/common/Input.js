@@ -6,6 +6,7 @@ const errorState = css`
 `;
 
 export default styled.input`
+  width: 100%;
   background: rgba(0, 0, 0, 0.05);
   color: inherit;
   border: 0;
