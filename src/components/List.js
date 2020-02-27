@@ -51,6 +51,9 @@ export default function List() {
   const visibleItems =
     list && list.showComplete ? items : items.filter(i => !i.isComplete);
 
+  const isEmpty = items.length === 0;
+  const allCompleted = visibleItems.length === 0 && !isEmpty;
+
   let pageTitle = list.title;
   if (uncompletedItemCount > 0) {
     pageTitle += ` (${uncompletedItemCount})`;
@@ -69,14 +72,24 @@ export default function List() {
             )}
           </MainHeading>
           <AddItemInput addItem={itemsActions.createItem} />
-          <Button onClick={itemsActions.toggleShowComplete}>
-            {list.showComplete ? 'Hide' : 'Show'} completed
-          </Button>
-          {visibleItems.length ? (
-            <DraggableReorderList items={visibleItems} itemsActions={itemsActions} />
-          ) : (
-            <div>No items</div>
+
+          {!isEmpty && (
+            <Button onClick={itemsActions.toggleShowComplete}>
+              {list.showComplete ? 'Hide' : 'Show'} completed
+            </Button>
           )}
+
+          {visibleItems.length > 0 && (
+            <>
+              <DraggableReorderList items={visibleItems} itemsActions={itemsActions} />
+            </>
+          )}
+
+          {isEmpty && <div>This list has no items</div>}
+
+          {allCompleted && <div>All items marked complete</div>}
+
+          <BottomControls></BottomControls>
         </>
       ) : (
         <div>Loading...</div>
