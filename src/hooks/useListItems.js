@@ -1,6 +1,6 @@
 import React from 'react';
 import useLocalStorageState from './useLocalStorageState';
-import firestore from 'fb/firestore';
+import firestore, { convertDocToObject } from 'fb/firestore';
 import { fieldValues, collections } from 'fb/config';
 import { useAuth } from 'contexts/AuthContext';
 import useLists from './useLists';
@@ -37,10 +37,7 @@ export default function useListItems(listSlug) {
         .where('userId', '==', user.uid)
         .orderBy('sortOrder')
         .onSnapshot(snapshot => {
-          const records = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
+          const records = snapshot.docs.map(convertDocToObject);
           setItems(records);
         });
       return () => unsubscribe();
